@@ -3,6 +3,8 @@ const API_URL = process.env.API_URL;
 const METAMASK_PUBLIC_KEY = process.env.METAMASK_PUBLIC_KEY;
 const METAMASK_PRIVATE_KEY = process.env.METAMASK_PRIVATE_KEY;
 const { createAlchemyWeb3 } = require("@alch/alchemy-web3");
+const {createAvatar} = require("@dicebear/avatars");
+const {style} = require("@dicebear/open-peeps");
 const alchemyWeb3 = createAlchemyWeb3(API_URL);
 const contract = require("../artifacts/contracts/createNFT.sol/NFTCollection.json"); 
 const contractAddress = "0x93Dd61871e1467f63919774fB998d456F705A391";
@@ -11,6 +13,8 @@ const nftContract = new alchemyWeb3.eth.Contract(contract.abi, contractAddress);
 async function mintNFT(tokenURI) {
     // get the nonce - nonce is needed for security reasons. It keeps track of the number of
     // transactions sent from our address and prevents replay attacks.
+  // Generate an image from seed
+    let svg = createAvatar(style, {seed: "hello"});
   const nonce = await alchemyWeb3.eth.getTransactionCount(METAMASK_PUBLIC_KEY, 'latest');
   const tx = {
     from: METAMASK_PUBLIC_KEY, // our MetaMask public key

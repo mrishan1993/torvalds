@@ -1,0 +1,30 @@
+{
+  "name": "torvalds",
+  "version": "1.0.0",
+  "description": "This is the backend code which will create collection of NFTs using raw images and configuration settings by the user. ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "blockchain",
+    "nft",
+    "alchemy",
+    "ethereum",
+    "polygon",
+    "ropsten",
+    "mainnet",
+    "solidity"
+  ],
+  "author": "Ishan Gupta",
+  "license": "ISC",
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.3",
+    "ethers": "^5.5.2",
+    "hardhat": "^2.8.0"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.0.0",
+    "dotenv": "^10.0.0"
+  }
+}

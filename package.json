@@ -28,6 +28,8 @@
     "@dicebear/avatars": "^4.10.2",
     "@dicebear/open-peeps": "^4.10.2",
     "@openzeppelin/contracts": "^4.0.0",
+    "@rarible/sdk-wallet": "^0.8.21",
+    "@rarible/types": "^0.7.0",
     "axios": "^0.25.0",
     "base-path-converter": "^1.0.2",
     "dotenv": "^10.0.0",

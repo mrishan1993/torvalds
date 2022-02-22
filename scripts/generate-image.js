@@ -2,24 +2,34 @@ const {createAvatar} = require("@dicebear/avatars");
 const {style} = require("@dicebear/open-peeps");
 const traits = require("./traits")
 const jimp = require("jimp")
+const duplicacy_checker = require("../middleware/duplicacy_checker")
 
 // Name of the collection
-const NAME = "Collection Name"
+const NAME = "Bingy Beavers"
 
 // Generate images here !! 
 const generateImages = async () => {
     var index = 0;
     const supply = 100
     var nfts = []
+    var allTraitsArray = []
     while (index <= supply) {
         try {
             console.log("index ", index)
-            await generator (index, (traits_array) => {
-                index++
-                nfts.push({
-                    name: NAME + " " + (index + 1),
-                    traits: traits_array
-                })
+            await generator (index, allTraitsArray, (traits_array, nftAddress, success) => {
+                if (success) {
+                    index++
+                    nfts.push({
+                        name: NAME + " " + (index + 1),
+                        nftAddress: nftAddress,
+                        traits: traits_array
+                    })
+                    allTraitsArray.push(traits_array)
+                } else {
+                    // pass without incrementing the index.
+                    // nft created is a duplicate
+                }
+                
             })
         } catch (e) {
             console.log("Exception ", e)
@@ -31,8 +41,9 @@ const generateImages = async () => {
 
 
 // generator function 
-const generator = async (index, onComplete) => {
+const generator = async (index, allTraitsArray, onComplete) => {
     const path = "/Users/ishu/desktop/projects/torvalds/"
+    
     var traits_array = []
 
     // generate the background
@@ -117,10 +128,18 @@ const generator = async (index, onComplete) => {
     composedImage.blit(headwearJimp, 0, 0)
 
 
-
-    await composedImage.write("../output/images/" + index + ".png")
-    await sleep(20)
-    onComplete(traits_array)
+    console.log("all traits array ", allTraitsArray) 
+    console.log("traits_array ", traits_array) 
+    if (!duplicacy_checker.checkDuplicacy(allTraitsArray, traits_array)) {
+        var nftAddress = "../output/images/" + index + ".png"
+        await composedImage.write(nftAddress)
+        await sleep(20)
+        onComplete(traits_array, nftAddress, true)
+    } else {
+        // send the false in the success parameter
+        onComplete(traits_array, nftAddress, false)
+    }
+    
 }
 
 // sleep for 20 secs after every image creation to make sure the image is saved 

@@ -126,10 +126,6 @@ const generator = async (index, allTraitsArray, onComplete) => {
         value: headwearImage
     })
     composedImage.blit(headwearJimp, 0, 0)
-
-
-    console.log("all traits array ", allTraitsArray) 
-    console.log("traits_array ", traits_array) 
     if (!duplicacy_checker.checkDuplicacy(allTraitsArray, traits_array)) {
         var nftAddress = "../output/images/" + index + ".png"
         await composedImage.write(nftAddress)
